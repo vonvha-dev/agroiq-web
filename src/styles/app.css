@@ -1,0 +1,335 @@
+/* Estilos base y de layout, adaptados del prototipo del Sprint 01. */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.5;
+}
+img {
+  max-width: 100%;
+}
+a {
+  color: var(--avocado);
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 40px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.saltar {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 10;
+  background: var(--avocado);
+  color: var(--surface);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+.saltar:focus {
+  top: 8px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--flesh);
+  outline-offset: 2px;
+}
+
+/* Cabecera */
+header.top {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+header.top .wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-block: 12px;
+  flex-wrap: wrap;
+}
+.brand {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--avocado);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+.brand span {
+  color: var(--pit);
+}
+.nav-principal {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.nav-principal a {
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+}
+.nav-principal a.active {
+  color: var(--ink);
+  background: var(--avocado-soft);
+}
+.perfil {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.perfil label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.perfil select {
+  width: auto;
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+/* Barra de pasos */
+nav.steps {
+  display: grid;
+  gap: 6px;
+  margin: 20px 0 8px;
+}
+nav.steps ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+nav.steps li {
+  min-width: 0;
+}
+.paso {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  min-width: 0;
+  height: 100%;
+}
+.paso b {
+  font-family: var(--display);
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--avocado-soft);
+  color: var(--avocado);
+  flex: none;
+}
+.paso[aria-current='step'] {
+  border-color: var(--avocado);
+  color: var(--ink);
+  font-weight: 600;
+}
+.paso[aria-current='step'] b {
+  background: var(--avocado);
+  color: var(--surface);
+}
+.paso[aria-disabled='true'] {
+  border-style: dashed;
+  cursor: not-allowed;
+}
+.contexto {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Vistas */
+.view {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+.head {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.head h1 {
+  font-family: var(--display);
+  font-size: 28px;
+  margin: 0;
+  text-wrap: balance;
+}
+.head p {
+  margin: 0;
+  color: var(--muted);
+  width: 100%;
+}
+.tag {
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--avocado-soft);
+  color: var(--avocado);
+  font-weight: 600;
+}
+.tag.next {
+  background: var(--pit-soft);
+  color: var(--pit);
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px;
+  min-width: 0;
+}
+.panel h2 {
+  font-family: var(--display);
+  font-size: 17px;
+  margin: 0 0 12px;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+}
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 9px;
+  padding: 10px 16px;
+  font: 600 14px var(--body);
+  background: var(--avocado);
+  color: var(--surface);
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn.ghost {
+  background: transparent;
+  color: var(--avocado);
+  border: 1px solid var(--avocado);
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+input,
+select,
+textarea {
+  font: 15px var(--body);
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--ink);
+  width: 100%;
+}
+
+/* Avisos */
+.sim {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--sim-soft);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  margin: 0;
+}
+.sim strong {
+  color: var(--sim);
+}
+.error {
+  border-color: var(--danger);
+}
+
+footer.note {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 24px;
+}
+
+@media (max-width: 760px) {
+  nav.steps ol {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid2,
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+  .perfil {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .view {
+    animation: entrar 0.25s ease-out;
+  }
+  @keyframes entrar {
+    from {
+      opacity: 0.4;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

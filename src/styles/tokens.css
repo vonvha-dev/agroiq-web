@@ -1,0 +1,70 @@
+/* Tokens del prototipo del Sprint 01 (reference/AgroIQ_Prototipo_Sprint01.html), claro y oscuro. */
+:root {
+  color-scheme: light;
+  --bg: #f6f7f2;
+  --surface: #ffffff;
+  --ink: #1e2a17;
+  --muted: #5e6b55;
+  --line: #dde3d3;
+  --avocado: #3e5f24;
+  --avocado-soft: #e7efd9;
+  --flesh: #c7d66a;
+  --pit: #7a4e2d;
+  --pit-soft: #f3e8de;
+  --sim: #8a5a00;
+  --sim-soft: #fff4d6;
+  --danger: #a3341f;
+  --c1: #b5452f;
+  --c2: #c98a1b;
+  --c3: #6e4c9a;
+  --c4: #2f7f86;
+  --c5: #3e8a3a;
+  --display: 'Space Grotesk', 'Segoe UI', Arial, sans-serif;
+  --body: 'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #12170f;
+    --surface: #1b2217;
+    --ink: #e8eedf;
+    --muted: #a3b096;
+    --line: #2f3a28;
+    --avocado: #a9c97a;
+    --avocado-soft: #26331c;
+    --flesh: #c7d66a;
+    --pit: #d9a57c;
+    --pit-soft: #33261c;
+    --sim: #f2c14e;
+    --sim-soft: #3a2f12;
+    --danger: #f0907a;
+    --c1: #e07a62;
+    --c2: #e3b04b;
+    --c3: #a98bd6;
+    --c4: #6cc3ca;
+    --c5: #7fcb78;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #12170f;
+  --surface: #1b2217;
+  --ink: #e8eedf;
+  --muted: #a3b096;
+  --line: #2f3a28;
+  --avocado: #a9c97a;
+  --avocado-soft: #26331c;
+  --flesh: #c7d66a;
+  --pit: #d9a57c;
+  --pit-soft: #33261c;
+  --sim: #f2c14e;
+  --sim-soft: #3a2f12;
+  --danger: #f0907a;
+  --c1: #e07a62;
+  --c2: #e3b04b;
+  --c3: #a98bd6;
+  --c4: #6cc3ca;
+  --c5: #7fcb78;
+}
