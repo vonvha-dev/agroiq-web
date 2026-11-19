@@ -127,6 +127,7 @@ Como operario quiero cargar las imágenes del lote y ver la categoría de cada f
 - La pantalla muestra cada fruta con su clase y origen, el resumen por clase (n.º y %) y un aviso visible: "Clasificación con etiquetas manuales o simulada; no proviene de un modelo entrenado".
 - No se muestra "confianza" salvo con `origen: "modelo"` (no existe aún). Los porcentajes de confianza del prototipo del Sprint 01 **no se replican** (D16).
 - Al clasificar, el lote pasa a `clasificado` y se registra el evento correspondiente.
+- **Imágenes reales (decisión del 18/11/2026):** las pruebas y el modo demo usan las 12 fotos reales de palta Hass del prototipo (dataset de Mendeley, CC BY 4.0, con crédito). Ese dataset es de maduración, no de defectos, así que la hoja de etiquetas solo incluye las fotos cuya clase confirme alguien del equipo; las demás salen como `simulada`. Las fotos de daño mecánico (`dm`) y plagas (`pl`) las tomará el equipo en descarte real más adelante y se agregarán a `tests/fixtures/` y al modo demo cuando existan.
 
 **PB-05 · Consultar la ficha del lote por su ID (2 pts).**
 Como supervisor quiero buscar un lote por su ID para ver toda su trazabilidad.
