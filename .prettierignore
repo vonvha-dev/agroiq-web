@@ -1,0 +1,10 @@
+dist
+dist-single
+coverage
+playwright-report
+test-results
+evidencias
+reference
+docs
+*.md
+package-lock.json
