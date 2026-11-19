@@ -51,7 +51,7 @@ Actualizado con `DECISIONES_PO_2026-11-18.md` (D1–D16), que prevalece ante cua
 - Parser de la hoja de etiquetas CSV + esquema `EtiquetaCSV`, con reporte de filas inválidas.
 - `ClasificadorMuestra` (etiqueta manual → simulación determinista con `uint32` BE mod 5, D14) y sus pruebas de reproducibilidad y de hash fijo conocido.
 - `clasificarLote.ts` + página de clasificación: grilla por fruta (chip de clase + origen), resumen por clase y `AvisoSimulado`.
-- Fixtures: 12 imágenes pequeñas + `etiquetas.csv` en `tests/fixtures/`.
+- Fixtures: las 12 fotos reales del prototipo (300×300 px, CC BY 4.0) + `etiquetas.csv` en `tests/fixtures/`. El CSV lleva solo las etiquetas confirmadas por el equipo; las fotos de `dm` y `pl` las aporta el equipo después (tarea del equipo, ligada al riesgo R3).
 
 **PB-05 · Ficha**
 - Página `#/lotes/:id` con KPI, datos, galería, resumen en n.º y kg (`domain/reparto.ts` y sus pruebas) y línea de tiempo.
