@@ -280,7 +280,160 @@ textarea {
   width: 100%;
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.enlace {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--avocado);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.enlace.peligro {
+  color: var(--danger);
+}
+
+/* Formularios */
+.formulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.f {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+.wide {
+  grid-column: 1 / -1;
+}
+textarea {
+  resize: vertical;
+}
+[aria-invalid='true'] {
+  border-color: var(--danger);
+  border-width: 2px;
+}
+.ayuda {
+  font-size: 13px;
+  color: var(--muted);
+}
+.campo-error {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+/* Tablas */
+.tbl {
+  overflow-x: auto;
+  /* Contiene los .sr-only absolutos: sin esto ensanchan la página en móvil. */
+  position: relative;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+th,
+td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+thead th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-weight: 600;
+}
+tbody th {
+  font-weight: 700;
+}
+.num {
+  text-align: right;
+}
+.obs {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted);
+}
+.acciones-fila > * + * {
+  margin-left: 14px;
+}
+.estado {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--avocado-soft);
+  color: var(--avocado);
+}
+.barra-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.barra-lista h2 {
+  margin: 0;
+  margin-right: auto;
+}
+.buscador {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.buscador input {
+  width: 180px;
+}
+.buscador .campo-error {
+  flex-basis: 100%;
+}
+.vacio {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  color: var(--muted);
+}
+.vacio p {
+  margin: 0;
+}
+.paginacion {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
 /* Avisos */
+.aviso-ok,
+.aviso-error {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-weight: 600;
+}
+.aviso-ok {
+  border-color: var(--avocado);
+  color: var(--avocado);
+}
+.aviso-error {
+  border-color: var(--danger);
+  color: var(--danger);
+}
 .sim {
   display: flex;
   gap: 10px;
@@ -310,8 +463,13 @@ footer.note {
     grid-template-columns: 1fr 1fr;
   }
   .grid2,
-  .grid3 {
+  .grid3,
+  .formulario {
     grid-template-columns: 1fr;
+  }
+  .buscador input {
+    width: 100%;
+    flex: 1;
   }
   .perfil {
     margin-left: 0;
