@@ -1,0 +1,30 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+dist-single/
+
+# Pruebas
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Evidencias: se ignoran salvo las de cierre de sprint
+evidencias/*
+!evidencias/sprint-*-cierre/
+
+# Entorno y editores
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.tsbuildinfo
