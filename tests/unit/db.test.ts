@@ -44,22 +44,29 @@ describe('base de datos', () => {
 });
 
 describe('ContadorRepository', () => {
-  it('entrega correlativos consecutivos por clave, independientes entre claves', async () => {
-    expect(await repos.contadores.siguiente('LT-2026')).toBe(1);
-    expect(await repos.contadores.siguiente('LT-2026')).toBe(2);
-    expect(await repos.contadores.siguiente('OF-2026')).toBe(1);
-    expect(await repos.contadores.siguiente('LT-2026')).toBe(3);
+  it('lee 0 si no existe y guarda valores por clave, independientes entre claves', async () => {
+    expect(await repos.contadores.leer('LT-2026')).toBe(0);
+    await repos.contadores.guardar('LT-2026', 2);
+    await repos.contadores.guardar('OF-2026', 1);
+    expect(await repos.contadores.leer('LT-2026')).toBe(2);
+    expect(await repos.contadores.leer('OF-2026')).toBe(1);
   });
 
-  it('no retrocede aunque se borre un lote', async () => {
-    await repos.contadores.siguiente('LT-2026');
-    await repos.lotes.guardar(lote('LT-2026-0001', '2026-11-18T10:00:00Z'));
-    await repos.lotes.borrar('LT-2026-0001');
-    expect(await repos.contadores.siguiente('LT-2026')).toBe(2);
+  it('no permite que el contador retroceda', async () => {
+    await repos.contadores.guardar('LT-2026', 5);
+    await expect(repos.contadores.guardar('LT-2026', 4)).rejects.toThrow(/retroceder/);
+    expect(await repos.contadores.leer('LT-2026')).toBe(5);
   });
 });
 
 describe('LoteRepository', () => {
+  it('lista los IDs por prefijo y no admite un ID repetido al agregar', async () => {
+    await repos.lotes.agregar(lote('LT-2026-0001', '2026-11-18T10:00:00Z'));
+    await repos.lotes.agregar(lote('LT-2025-0007', '2026-11-18T10:01:00Z'));
+    expect(await repos.lotes.listarIds('LT-2026-')).toEqual(['LT-2026-0001']);
+    await expect(repos.lotes.agregar(lote('LT-2026-0001', 'x'))).rejects.toThrow();
+  });
+
   it('lista el lote más reciente primero y persiste entre lecturas', async () => {
     await repos.lotes.guardar(lote('LT-2026-0001', '2026-11-18T10:00:00Z'));
     await repos.lotes.guardar(lote('LT-2026-0002', '2026-11-18T11:00:00Z'));

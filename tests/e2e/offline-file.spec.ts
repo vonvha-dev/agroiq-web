@@ -70,3 +70,18 @@ test('dist-single funciona por file:// sin servidor', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Acerca del prototipo');
   expect(errores).toEqual([]);
 });
+
+test('dist-single registra un lote por file:// y lo conserva al recargar (PB-03)', async ({
+  page,
+}) => {
+  const errores = vigilarConsola(page);
+  await page.goto(`${pathToFileURL(archivo).href}#/lotes/nuevo`);
+  await page.getByLabel('Fecha de recepción').fill('2026-11-10');
+  await page.getByLabel('Peso del lote (kg)').fill('250');
+  await page.getByRole('button', { name: 'Registrar lote' }).click();
+  await expect(page.getByRole('rowheader')).toHaveText(['LT-2026-0001']);
+
+  await page.reload();
+  await expect(page.getByRole('rowheader')).toHaveText(['LT-2026-0001']);
+  expect(errores).toEqual([]);
+});

@@ -19,6 +19,10 @@ export interface LoteRepository {
   /** Más reciente primero. */
   listar(): Promise<Lote[]>;
   obtener(id: string): Promise<Lote | undefined>;
+  /** IDs que empiezan por el prefijo, p. ej. `LT-2026-`. */
+  listarIds(prefijo: string): Promise<string[]>;
+  /** Falla si ya existe un lote con ese ID. */
+  agregar(lote: Lote): Promise<void>;
   guardar(lote: Lote): Promise<void>;
   borrar(id: string): Promise<void>;
 }
@@ -27,17 +31,20 @@ export interface ImagenRepository {
   listarPorLote(loteId: string): Promise<ImagenFrutaVista[]>;
   contarPorLote(loteId: string): Promise<number>;
   guardar(imagen: ImagenFruta): Promise<void>;
+  borrarPorLote(loteId: string): Promise<void>;
 }
 
 export interface ClasificacionRepository {
   listarPorLote(loteId: string): Promise<Clasificacion[]>;
   guardarVarias(clasificaciones: Clasificacion[]): Promise<void>;
+  borrarPorLote(loteId: string): Promise<void>;
 }
 
 export interface EventoRepository {
   /** En orden cronológico. */
   listarPorLote(loteId: string): Promise<EventoLote[]>;
   agregar(evento: EventoLote): Promise<void>;
+  borrarPorLote(loteId: string): Promise<void>;
 }
 
 export interface ValorizacionRepository {
@@ -58,9 +65,12 @@ export interface InteresRepository {
   agregar(interes: InteresComprador): Promise<void>;
 }
 
+/** Contadores persistentes de correlativos (clave `LT-2026`). Nunca retroceden. */
 export interface ContadorRepository {
-  /** Incrementa y devuelve el siguiente correlativo de la clave (1, 2, 3…). Nunca reutiliza. */
-  siguiente(clave: string): Promise<number>;
+  /** Valor actual; 0 si la clave no existe. */
+  leer(clave: string): Promise<number>;
+  /** Falla si el valor nuevo es menor que el guardado. */
+  guardar(clave: string, valor: number): Promise<void>;
 }
 
 export interface Repositorios {
@@ -79,6 +89,8 @@ export function crearRepositoriosDexie(db: AgroIQDB): Repositorios {
     lotes: {
       listar: () => db.lotes.orderBy('creadoEn').reverse().toArray(),
       obtener: (id) => db.lotes.get(id),
+      listarIds: (prefijo) => db.lotes.where('id').startsWith(prefijo).primaryKeys(),
+      agregar: async (lote) => void (await db.lotes.add(lote)),
       guardar: async (lote) => void (await db.lotes.put(lote)),
       borrar: (id) => db.lotes.delete(id),
     },
@@ -92,15 +104,21 @@ export function crearRepositoriosDexie(db: AgroIQDB): Repositorios {
       },
       contarPorLote: (loteId) => db.imagenes.where('loteId').equals(loteId).count(),
       guardar: async (imagen) => void (await db.imagenes.put(imagen)),
+      borrarPorLote: async (loteId) =>
+        void (await db.imagenes.where('loteId').equals(loteId).delete()),
     },
     clasificaciones: {
       listarPorLote: (loteId) => db.clasificaciones.where('loteId').equals(loteId).toArray(),
       guardarVarias: async (clasificaciones) =>
         void (await db.clasificaciones.bulkPut(clasificaciones)),
+      borrarPorLote: async (loteId) =>
+        void (await db.clasificaciones.where('loteId').equals(loteId).delete()),
     },
     eventos: {
       listarPorLote: (loteId) => db.eventos.where('loteId').equals(loteId).sortBy('fecha'),
       agregar: async (evento) => void (await db.eventos.add(evento)),
+      borrarPorLote: async (loteId) =>
+        void (await db.eventos.where('loteId').equals(loteId).delete()),
     },
     valorizaciones: {
       obtener: (loteId) => db.valorizaciones.get(loteId),
@@ -118,12 +136,12 @@ export function crearRepositoriosDexie(db: AgroIQDB): Repositorios {
       agregar: async (interes) => void (await db.intereses.add(interes)),
     },
     contadores: {
-      siguiente: (clave) =>
+      leer: async (clave) => (await db.contadores.get(clave))?.valor ?? 0,
+      guardar: (clave, valor) =>
         db.transaction('rw', db.contadores, async () => {
           const actual = (await db.contadores.get(clave))?.valor ?? 0;
-          const valor = actual + 1;
+          if (valor < actual) throw new Error(`El contador ${clave} no puede retroceder`);
           await db.contadores.put({ clave, valor });
-          return valor;
         }),
     },
   };
